@@ -1,0 +1,11 @@
+name: 'Protect event parameters'
+description: 'Ensure repository_dispatch parameters are not shown in the build output'
+
+inputs:
+  whitelist:
+    description: 'CSV of event parameter names to protect'
+    required: true
+
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
