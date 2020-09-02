@@ -7,16 +7,17 @@ parameters are the contents of the `client_payload` field from the event.
 
 ### Inputs
 
-#### `whitelist`
+#### `allowlist`
 
 **Optional** A comma-separated list of parameters that should be ignored by this action.
+This allows non-secret fields to be excluded from protection.
 
 ## Example usage
 
 ```yaml
-uses: cultureamp/protect-event-parameters-action
+uses: cultureamp/protect-event-parameters-action@v2
 with:
-  whitelist: 'field1,field2'
+  allowlist: 'field1,field2'
 ```
 
 Given a `client_payload` that contains `field_1`, `field_2` and `field_3`, after this
