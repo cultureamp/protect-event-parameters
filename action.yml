@@ -2,8 +2,8 @@ name: 'Protect event parameters'
 description: 'Ensure repository_dispatch parameters are not shown in the build output'
 
 inputs:
-  whitelist:
-    description: 'CSV of event parameter names to protect'
+  allowlist:
+    description: 'CSV of event parameter names to exclude from protection'
     required: true
 
 runs:
