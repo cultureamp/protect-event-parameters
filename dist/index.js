@@ -8564,18 +8564,33 @@ function protectClientPayload(clientPayload, exceptAllowlist) {
 
     console.log('Protecting members from client_payload:')
 
-    Object.keys(clientPayload)
-        .filter(memberName => !exceptAllowlist.includes(memberName))
-        .forEach(memberName => {
+    recurseMembers(clientPayload,
+        (val, memberName) => {
+            if (exceptAllowlist.includes(memberName)) {
+                return
+            }
+
             core.info(`- protecting ${memberName}`)
-
-            let val = clientPayload[memberName]
-
             if (val) {
-                val = val.toString()
-                core.setSecret(val)
+                core.setSecret(val.toString())
             }
         })
+}
+
+function recurseMembers(obj, memberCallback, path) {
+    const members = Object.keys(obj)
+
+    path = path || []
+
+    for (let member of members) {
+        const val = obj[member]
+        const memberPath = [...path, member]
+        if (typeof val === 'object') {
+            recurseMembers(val, memberCallback, memberPath)
+        } else {
+            memberCallback(val, memberPath.join('.'))
+        }
+    }
 }
 
 try {
@@ -8593,6 +8608,7 @@ try {
 } catch (error) {
     core.setFailed(error.message);
 }
+
 
 /***/ }),
 
