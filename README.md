@@ -1,4 +1,4 @@
-# protect-event-parameters-action
+# protect-event-parameters
 
 A Github action that ensures `repository_dispatch` event parameters are not shown in Github actions build output. These
 parameters are the contents of the `client_payload` field from the event.
@@ -15,7 +15,7 @@ This allows non-secret fields to be excluded from protection.
 ## Example usage
 
 ```yaml
-uses: cultureamp/protect-event-parameters-action@v2
+uses: cultureamp/protect-event-parameters@v2
 with:
   allowlist: 'field1,field2'
 ```
