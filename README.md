@@ -36,4 +36,4 @@ pnpm install --frozen-lockfile
 pnpm run build
 ```
 
-The build uses [@zeit/ncc](https://github.com/zeit/ncc) to compile dependencies into one file, rather than requiring `node_modules` to be committed.
+The build uses [@vercel/ncc](https://github.com/vercel/ncc) to compile dependencies into one file, rather than requiring `node_modules` to be committed.
