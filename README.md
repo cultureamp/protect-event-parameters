@@ -30,10 +30,10 @@ the appropriate [workflow commands](https://help.github.com/en/actions/reference
 
 ```bash
 # download dependencies
-npm ci
+pnpm install --frozen-lockfile
 
 # packs result
-npm run build
+pnpm run build
 ```
 
 The build uses [@zeit/ncc](https://github.com/zeit/ncc) to compile dependencies into one file, rather than requiring `node_modules` to be committed.
