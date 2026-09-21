@@ -36,4 +36,6 @@ pnpm install --frozen-lockfile
 pnpm run build
 ```
 
-The build uses [@vercel/ncc](https://github.com/vercel/ncc) to compile dependencies into one file, rather than requiring `node_modules` to be committed.
+The build uses [esbuild](https://esbuild.github.io/) to compile dependencies into one file, rather than requiring `node_modules` to be committed.
+
+`@actions/core` reaches `undici` through its OIDC client, which this action never calls. `src/undici-stub.mjs` is aliased over it to keep ~760KB of unreachable HTTP stack out of `dist/`; it throws if anything ever does make a request. The `createRequire` banner is required because `@actions/http-client` loads the CommonJS `tunnel` package, which calls `require()` at module scope.

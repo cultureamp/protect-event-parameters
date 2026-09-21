@@ -1,13 +1,12 @@
 {
   "scripts": {
-    "build": "ncc build src/index.mjs"
+    "build": "esbuild src/index.mjs --bundle --platform=node --target=node24 --format=esm --outfile=dist/index.mjs --alias:undici=./src/undici-stub.mjs --banner:js=\"import{createRequire}from'node:module';const require=createRequire(import.meta.url);\""
   },
   "dependencies": {
-    "@actions/core": "^3.0.1",
-    "@actions/github": "^9.1.1"
+    "@actions/core": "^3.0.1"
   },
   "devDependencies": {
-    "@vercel/ncc": "^0.45.0"
+    "esbuild": "^0.28.2"
   },
   "packageManager": "pnpm@12.5.1+sha512.e3f305bc784a2bc89f5ad3b6138889470fae8d2af5f36b61216ec91c2c3d64089775f9de38aac331044ea40f245cb0d5666392dfdf65824e1907ef6a2c62de5f"
 }

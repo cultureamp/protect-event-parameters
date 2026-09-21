@@ -1,5 +1,5 @@
 import * as core from '@actions/core';
-import * as github from '@actions/github';
+import { readFileSync } from 'node:fs';
 
 function protectClientPayload(clientPayload, exceptAllowlist) {
   clientPayload = clientPayload || {}
@@ -35,16 +35,22 @@ function recurseMembers(obj, memberCallback, path) {
   }
 }
 
+function readEventPayload() {
+  return JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8'))
+}
+
 try {
-  if (github.context.eventName === 'repository_dispatch') {
+  const eventName = process.env.GITHUB_EVENT_NAME
+
+  if (eventName === 'repository_dispatch') {
 
     let allowlist =
       (core.getInput('allowlist') || '').split(',').filter(n => n);
 
-    protectClientPayload(github.context.payload.client_payload, allowlist)
+    protectClientPayload(readEventPayload().client_payload, allowlist)
 
   } else {
-    console.log(`Ignoring ${github.context.eventName} event`)
+    console.log(`Ignoring ${eventName} event`)
   }
 
 } catch (error) {
