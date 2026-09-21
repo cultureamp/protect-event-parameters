@@ -34,6 +34,9 @@ pnpm install --frozen-lockfile
 
 # packs result
 pnpm run build
+
+# rebuilds, then runs the tests against dist/
+pnpm test
 ```
 
 The build uses [esbuild](https://esbuild.github.io/) to compile dependencies into one file, rather than requiring `node_modules` to be committed.
