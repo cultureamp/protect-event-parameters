@@ -37158,52 +37158,52 @@ function getOctokit(token, options, ...additionalPlugins) {
 
 
 function protectClientPayload(clientPayload, exceptAllowlist) {
-    clientPayload = clientPayload || {}
+  clientPayload = clientPayload || {}
 
-    console.log('Protecting members from client_payload:')
+  console.log('Protecting members from client_payload:')
 
-    recurseMembers(clientPayload,
-        (val, memberName) => {
-            if (exceptAllowlist.includes(memberName)) {
-                return
-            }
+  recurseMembers(clientPayload,
+    (val, memberName) => {
+      if (exceptAllowlist.includes(memberName)) {
+        return
+      }
 
-            info(`- protecting ${memberName}`)
-            if (val) {
-                core_setSecret(val.toString())
-            }
-        })
+      info(`- protecting ${memberName}`)
+      if (val) {
+        core_setSecret(val.toString())
+      }
+    })
 }
 
 function recurseMembers(obj, memberCallback, path) {
-    const members = Object.keys(obj)
+  const members = Object.keys(obj)
 
-    path = path || []
+  path = path || []
 
-    for (let member of members) {
-        const val = obj[member]
-        const memberPath = [...path, member]
-        if (typeof val === 'object') {
-            recurseMembers(val, memberCallback, memberPath)
-        } else {
-            memberCallback(val, memberPath.join('.'))
-        }
+  for (let member of members) {
+    const val = obj[member]
+    const memberPath = [...path, member]
+    if (typeof val === 'object') {
+      recurseMembers(val, memberCallback, memberPath)
+    } else {
+      memberCallback(val, memberPath.join('.'))
     }
+  }
 }
 
 try {
-    if (github_context.eventName === 'repository_dispatch') {
+  if (github_context.eventName === 'repository_dispatch') {
 
-        let allowlist =
-            (getInput('allowlist') || '').split(',').filter(n => n);
+    let allowlist =
+      (getInput('allowlist') || '').split(',').filter(n => n);
 
-        protectClientPayload(github_context.payload.client_payload, allowlist)
+    protectClientPayload(github_context.payload.client_payload, allowlist)
 
-    } else {
-        console.log(`Ignoring ${github_context.eventName} event`)
-    }
+  } else {
+    console.log(`Ignoring ${github_context.eventName} event`)
+  }
 
 } catch (error) {
-    setFailed(error.message);
+  setFailed(error.message);
 }
 
