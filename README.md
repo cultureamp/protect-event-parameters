@@ -15,7 +15,7 @@ This allows non-secret fields to be excluded from protection.
 ## Example usage
 
 ```yaml
-uses: cultureamp/protect-event-parameters@v2
+uses: cultureamp/protect-event-parameters@v3
 with:
   allowlist: 'field1,field2'
 ```
